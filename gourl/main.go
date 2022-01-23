@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 )
 
 var (
@@ -59,4 +60,15 @@ func main() {
 
 	io.Copy(w, resp.Body)
 
+}
+
+func validateURL(s string) bool {
+	_, err := ParseRequestURI(s)
+	if err != nil {
+		return false
+	}
+	return true
+	validURL := regexp.MustCompile("^http(s)?://[[:graph:]]+")
+	return validURL.MatchString(s)
+	// return true
 }
